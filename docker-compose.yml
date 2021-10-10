@@ -11,7 +11,7 @@ services:
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
-            - '${APP_PORT:-80}:80'
+            - '${APP_PORT:-8088}:80'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
@@ -47,7 +47,7 @@ services:
     redis:
         image: 'redis:alpine'
         ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
+            - '${FORWARD_REDIS_PORT:-6377}:6379'
         volumes:
             - 'sailredis:/data'
         networks:

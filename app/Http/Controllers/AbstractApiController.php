@@ -63,7 +63,7 @@ abstract class AbstractApiController extends Controller
      */
     public function store(Request $request): Model
     {
-        $request = $this->requestStore ?? $request;
+        $request = app($this->requestStore) ?? $request;
 
         $attributes = $this->validated($request);
 
@@ -92,7 +92,7 @@ abstract class AbstractApiController extends Controller
      */
     public function update(Request $request, int|string $id): Model
     {
-        $request = $this->requestUpdate ?? $request;
+        $request = app($this->requestUpdate) ?? $request;
 
         $attributes = $this->validated($request);
 

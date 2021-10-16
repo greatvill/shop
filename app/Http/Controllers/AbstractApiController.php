@@ -24,11 +24,7 @@ abstract class AbstractApiController extends Controller
 
     protected function find(int|string $id): Model
     {
-        /**
-         * @var  Model $model
-         */
-        $model = $this->modelClass;
-        return $model::query()->findOrFail($id);
+        return $this->createInstance()::query()->findOrFail($id);
     }
 
     protected function validated(Request $request): array
@@ -48,11 +44,7 @@ abstract class AbstractApiController extends Controller
      */
     public function index(): array
     {
-        /**
-         * @var  Model $model
-         */
-        $model = $this->modelClass;
-        return $model::query()->paginate($this->perPage)->items();
+        return $this->createInstance()::query()->paginate($this->perPage)->items();
     }
 
     /**
@@ -63,10 +55,8 @@ abstract class AbstractApiController extends Controller
      */
     public function store(Request $request): Model
     {
-        $request = app($this->requestStore) ?? $request;
-
-        $attributes = $this->validated($request);
-
+        $requestCurrent = isset($this->requestStore) ? app($this->requestStore) : $request;
+        $attributes = $this->validated($requestCurrent);
         $model = $this->createInstance()->fill($attributes);
         $model->save();
         return $model;
@@ -92,10 +82,8 @@ abstract class AbstractApiController extends Controller
      */
     public function update(Request $request, int|string $id): Model
     {
-        $request = app($this->requestUpdate) ?? $request;
-
-        $attributes = $this->validated($request);
-
+        $requestCurrent = isset($this->requestStore) ? app($this->requestStore) : $request;
+        $attributes = $this->validated($requestCurrent);
         $model = $this->find($id)->fill($attributes);
         $model->save();
         return $model;

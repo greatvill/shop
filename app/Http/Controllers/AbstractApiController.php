@@ -13,9 +13,9 @@ abstract class AbstractApiController extends Controller
 
     protected int $perPage = 15;
 
-    protected FormRequest $requestUpdate;
+    protected string $requestUpdateClass;
 
-    protected FormRequest $requestStore;
+    protected string $requestStoreClass;
 
     protected function createInstance(): Model
     {
@@ -50,13 +50,12 @@ abstract class AbstractApiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
      * @return Model
      */
-    public function store(Request $request): Model
+    public function store(): Model
     {
-        $requestCurrent = isset($this->requestStore) ? app($this->requestStore) : $request;
-        $attributes = $this->validated($requestCurrent);
+        $request = app($this->requestStoreClass ?? Request::class);
+        $attributes = $this->validated($request);
         $model = $this->createInstance()->fill($attributes);
         $model->save();
         return $model;
@@ -76,14 +75,13 @@ abstract class AbstractApiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
      * @param int|string $id
      * @return Model
      */
-    public function update(Request $request, int|string $id): Model
+    public function update(int|string $id): Model
     {
-        $requestCurrent = isset($this->requestStore) ? app($this->requestStore) : $request;
-        $attributes = $this->validated($requestCurrent);
+        $request = app($this->requestUpdateClass ?? Request::class);
+        $attributes = $this->validated($request);
         $model = $this->find($id)->fill($attributes);
         $model->save();
         return $model;

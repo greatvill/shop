@@ -35,14 +35,14 @@ class AuthController extends Controller
         ]);
 
         if (!Auth::attempt($attr)) {
-            return $this->error('Credentials not match', 401);
+            return ['error'];
         }
 
         $user = auth()->user();
 
-        return $this->success([
+        return [
             'token' => $user->createToken('API Token')->plainTextToken
-        ]);
+        ];
     }
 
     public function logout()

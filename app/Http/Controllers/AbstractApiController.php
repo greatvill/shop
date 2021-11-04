@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AbstractModelService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -52,7 +53,7 @@ abstract class AbstractApiController extends Controller
      *
      * @return Model
      */
-    public function store(): Model
+    public function store(Request $request): Model
     {
         $request = app($this->requestStoreClass ?? Request::class);
         $attributes = $this->validated($request);

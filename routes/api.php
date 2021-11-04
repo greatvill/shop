@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
@@ -24,6 +25,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
     Route::apiResource('orders', OrderController::class);
+
+    Route::apiResource('users', UserController::class);
 });
 
 Route::post('/auth/register', [AuthController::class, 'register']);

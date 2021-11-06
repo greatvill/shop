@@ -4,30 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
-    public function store(UserStoreRequest $request)
+    public function __construct(protected UserService $service)
+    {
+    }
+
+    public function store(UserStoreRequest $request): UserResource
     {
         $data = $request->validated();
+        $user = $this->service->create($data);
+        return new UserResource($user);
+    }
 
-        $user = new User([
-            'email' => $data['email'],
-            'name' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
-
-        if (!empty($data['permissions'])) {
-            $user->givePermissionTo($data['permissions']);
-        }
-
-        if (!empty($data['roles'])) {
-            $user->assignRole($data['roles']);
-        }
-
-        $user->save();
-        return $user;
+    public function update(User $user, UserUpdateRequest $request): UserResource
+    {
+        $data = $request->validated();
+        $this->service->update($user, $data);
+        return new UserResource($user);
     }
 }

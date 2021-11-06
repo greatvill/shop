@@ -17,7 +17,7 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'permission']], function () {
     Route::get('/me', function(Request $request) {
         return auth()->user();
     });

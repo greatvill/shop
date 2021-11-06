@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             Permission::create(['name' => $permissionName]);
         }
 
-        $permissionsByRoles = config('permissions');
+        $permissionsByRoles = config('role-permission');
         $roleAdmin = Role::createAdmin();
         $roleAdmin->givePermissionTo($permissionsByRoles[Role::ADMIN]);
 

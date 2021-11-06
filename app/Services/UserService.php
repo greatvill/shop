@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class UserService extends AbstractModelService
+class UserService
 {
     private function additionDataProcess(User $model, array $additionData): void
     {

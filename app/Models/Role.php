@@ -35,8 +35,9 @@ class Role extends \Spatie\Permission\Models\Role
     use HasFactory;
 
     public const MANAGER = 'manager';
-    public const CLIENT = 'manager';
+    public const CLIENT = 'client';
     public const ADMIN = 'admin';
+    public const MODERATOR = 'moderator';
 
     public static function createAdmin(): Model|\Illuminate\Database\Eloquent\Builder
     {
@@ -53,7 +54,12 @@ class Role extends \Spatie\Permission\Models\Role
         return self::create(['name' => self::MANAGER]);
     }
 
-    public static function getAdmin()
+    public static function createModerator(): Model|\Illuminate\Database\Eloquent\Builder
+    {
+        return self::create(['name' => self::MODERATOR]);
+    }
+
+    public static function getAdmin(): \Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
     {
         return self::findByName(self::ADMIN);
     }

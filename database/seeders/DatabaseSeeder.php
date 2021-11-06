@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\Manager;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -17,21 +18,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissionAdminNames = [
-            Permission::CREATE_USER
-        ];
-        $roleAdmin = Role::createAdmin();
-        $permissions = [];
-        foreach ($permissionAdminNames as $name) {
-            $permissions[] = Permission::create(['name' => $name]);
+        foreach (Permission::ALL as $permissionName) {
+            Permission::create(['name' => $permissionName]);
         }
-        $roleAdmin->givePermissionTo($permissions);
+
+        $permissionsByRoles = config('permissions');
+        $roleAdmin = Role::createAdmin();
+        $roleAdmin->givePermissionTo($permissionsByRoles[Role::ADMIN]);
+
         $userAdmin = User::create([
             'name' => env('ADMIN_NAME'),
             'password' => bcrypt(env('ADMIN_PASSWORD')),
             'email' => env('ADMIN_EMAIL')
         ]);
         $userAdmin->assignRole($roleAdmin);
+
+
+        $roleManager = Role::createManager();
+        $roleManager->givePermissionTo($permissionsByRoles[Role::MANAGER]);
+
+        $roleModerator = Role::createModerator();
+        $roleModerator->givePermissionTo($permissionsByRoles[Role::MODERATOR]);
+
+        $roleClient = Role::createClient();
+        $roleClient->givePermissionTo($permissionsByRoles[Role::CLIENT]);
+
         if (config('app.env') === 'local') {
             (new TestSeeder())->run();
         }

@@ -32,5 +32,37 @@ namespace App\Models;
  */
 class Permission extends \Spatie\Permission\Models\Permission
 {
-    const CREATE_USER = 'create_user';
+    public const CREATE_USER = 'create_user';
+    public const DELETE_USER = 'delete_user';
+    public const EDIT_USER = 'edit_user';
+    public const VIEW_USER = 'view_user';
+
+    public const CREATE_ORDER = 'create_order';
+    public const DELETE_ORDER = 'delete_order';
+    public const EDIT_ORDER = 'edit_order';
+    public const VIEW_ORDER = 'view_order';
+    public const CHANGE_STATUS_ORDER = 'change_status_order';
+
+    public const CREATE_PRODUCT = 'create_product';
+    public const DELETE_PRODUCT = 'delete_product';
+    public const EDIT_PRODUCT = 'edit_product';
+    public const VIEW_PRODUCT = 'view_product';
+
+    public const ALL = [
+        self::CREATE_USER,
+        self::DELETE_USER,
+        self::EDIT_USER,
+        self::VIEW_USER,
+
+        self::CREATE_ORDER,
+        self::DELETE_ORDER,
+        self::EDIT_ORDER,
+        self::VIEW_ORDER,
+        self::CHANGE_STATUS_ORDER,
+
+        self::CREATE_PRODUCT,
+        self::DELETE_PRODUCT,
+        self::EDIT_PRODUCT,
+        self::VIEW_PRODUCT,
+    ];
 }

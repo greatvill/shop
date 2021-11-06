@@ -28,6 +28,7 @@ abstract class UserRequest extends FormRequest
             'email' => 'required|email',
             'password' => 'required|string',
 
+            'roles' => 'array',
             'permissions' => 'array',
         ];
     }

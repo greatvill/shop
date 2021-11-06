@@ -12,6 +12,7 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
+
         $user = new User([
             'email' => $data['email'],
             'name' => $data['email'],
@@ -21,6 +22,11 @@ class UserController extends Controller
         if (!empty($data['permissions'])) {
             $user->givePermissionTo($data['permissions']);
         }
+
+        if (!empty($data['roles'])) {
+            $user->assignRole($data['roles']);
+        }
+
         $user->save();
         return $user;
     }

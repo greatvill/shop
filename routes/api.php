@@ -27,6 +27,10 @@ Route::group(['middleware' => ['auth:sanctum', 'permission']], function () {
     Route::apiResource('orders', OrderController::class);
 
     Route::apiResource('users', UserController::class);
+
+    Route::get('test', function () {
+       return 'ddd';
+    })->name('test');
 });
 
 Route::post('/auth/register', [AuthController::class, 'register']);

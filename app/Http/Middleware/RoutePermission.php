@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,9 @@ class RoutePermission
         $routeName = Route::currentRouteName();
         $permissionName = $routePermissions[$routeName] ?? null;
         if ($permissionName) {
+            /**
+             * @var Authorizable $user
+             */
             $user = auth()->user();
             if (!$user || !$user->can($permissionName)) {
                 return response(status: 403);
